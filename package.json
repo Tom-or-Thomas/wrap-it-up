@@ -4,6 +4,7 @@
   "description": "Discord bot that summarizes messeges",
   "main": "index.js",
   "scripts": {
+    "build": "tsc && node --env-file .env ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "prettier . --check && eslint",
     "lint:fix": "prettier . --write && eslint  --fix ."
@@ -17,5 +18,8 @@
     "prettier": "3.3.3",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.1"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3"
   }
 }
