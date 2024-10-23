@@ -10,8 +10,8 @@ Well, this bot comes to the rescue. The bot will summarize the last x (number al
 
 High Level roadmap for building this bot.
 
-* [X] Connect to Discord server
-* [ ] Collect message for specific channel.
+* [X] ~Connect to Discord server~
+* [X] ~Collect message for specific channel.~
 * [ ] Add listener for new messages in channel.
 * [ ] Updated Discord prompt to allow users to specify number of messages to summarize (current max is 100)
 * [ ] Get connected to OpenAPI api.
