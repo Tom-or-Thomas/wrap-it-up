@@ -1,4 +1,8 @@
-import  {REST, RESTPostAPIApplicationCommandsJSONBody, Routes} from 'discord.js';
+import {
+	REST,
+	RESTPostAPIApplicationCommandsJSONBody,
+	Routes
+} from 'discord.js';
 import summary from './commands/utility/summary';
 
 const commands: RESTPostAPIApplicationCommandsJSONBody[] = [];
@@ -11,12 +15,17 @@ const rest = new REST().setToken(process.env.DISCORD_APP_TOKEN as string);
 // and deploy your commands!
 (async () => {
 	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+		console.log(
+			`Started refreshing ${commands.length} application (/) commands.`
+		);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
-			Routes.applicationGuildCommands(process.env.CLIENT_ID as string, process.env.GUILD_ID as string),
-			{ body: commands },
+			Routes.applicationGuildCommands(
+				process.env.CLIENT_ID as string,
+				process.env.GUILD_ID as string
+			),
+			{ body: commands }
 		);
 
 		console.log(`Successfully reloaded application (/) commands.`, data);
