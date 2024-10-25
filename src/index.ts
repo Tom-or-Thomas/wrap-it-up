@@ -1,9 +1,10 @@
 // Setup env variables
 // import 'dotenv/config';
 
-import { Client, Events, GatewayIntentBits, TextChannel } from 'discord.js';
+import { Events, TextChannel } from 'discord.js';
 import summary from './commands/summary';
 import { environmentVariables } from './util/environmentVariables';
+import { discordClient } from './disocrd';
 
 export type ChannelMessage = {
 	user: string;
@@ -15,24 +16,16 @@ export type ChannelMessage = {
 export const channelMessages: ChannelMessage[] = [];
 
 async function init() {
-	// Create a new client instance
-	const client = new Client({
-		intents: [
-			GatewayIntentBits.Guilds,
-			GatewayIntentBits.GuildMessages,
-			GatewayIntentBits.MessageContent
-		]
-	});
 
 	console.log(`Establishing connection to Discord....`);
 
 	// Log in to Discord with your client's token
-	await client.login(environmentVariables.discordAppToken);
+	await discordClient.login(environmentVariables.discordAppToken);
 
 	console.log(`Connection to Discord is established!`);
 
 	// Get channel
-	const channel = (await client.channels.fetch(
+	const channel = (await discordClient.channels.fetch(
 		environmentVariables.channelID
 	)) as TextChannel;
 
@@ -51,7 +44,7 @@ async function init() {
 	}
 
 	//  Listen for new messages in the channel
-	client.on('messageCreate', async (newMessage) => {
+	discordClient.on('messageCreate', async (newMessage) => {
 		// Only want to check on messages coming from channel we are monitoring
 		if (newMessage.guildId !== environmentVariables.channelID) {
 			return;
@@ -71,7 +64,7 @@ async function init() {
 	});
 
 	// Setup listener to listen for when command is called
-	client.on(Events.InteractionCreate, async (interaction) => {
+	discordClient.on(Events.InteractionCreate, async (interaction) => {
 		console.log('Interactive Create event received');
 
 		// TODO: Figure out if this will ever be called from other commands

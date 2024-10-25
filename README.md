@@ -20,6 +20,8 @@ High Level roadmap for building this bot.
 - [ ] Identify method for hosting application.
 - [ ] Add tests
 - [ ] Add pre-commit hook to check linting
+- [ ] Update API to work for any channel that is compatible.
+- [ ] Update API to fetch the number of messages specified
 
 ## Stretch Goals
 

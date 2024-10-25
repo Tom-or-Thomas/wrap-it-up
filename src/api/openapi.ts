@@ -11,7 +11,6 @@ const openai = new OpenAI({
 
 export const callAI = async (prompt: ChannelMessage[]): Promise<ChatCompletion> => {
     
-    
     return openai.chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [{
@@ -27,10 +26,11 @@ export const callAI = async (prompt: ChannelMessage[]): Promise<ChatCompletion> 
             concurrent conversation happening at the same time. Try your best to figure out what the topic(s) are 
             and what the main arguments are. 
 
-            For each unique topic being discuss, I want the response to include the 1-2 sentence summary of the topic,
-            4-8 sentences for the arguments being discussed, and include the names of the users participating in the conversation.
+            For each unique topic being discuss, I want the response to include the 1-2 sentence summary of the topic that is 
+            titled Summary Bot Summary: Insert description here, 4-12 sentences for the arguments being discussed and points 
+            specific users brought up, and the end should list each user that participated in the discussion.
 
-            Keep all the response to less than 800 characters
+            Keep all the response to less than 1800 characters
             `
         },
         {
