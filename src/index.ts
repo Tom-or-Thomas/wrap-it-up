@@ -1,13 +1,11 @@
-import { Client, Events, GatewayIntentBits, TextChannel } from 'discord.js';
-import summary from './commands/utility/summary';
-
 // Setup env variables
-import 'dotenv/config';
+// import 'dotenv/config';
 
-// TODO: Cleanup typing for env variables.
-const MAX_MESSAGES = (process.env.MAX_MESSAGES as unknown as number) || 200;
+import { Client, Events, GatewayIntentBits, TextChannel } from 'discord.js';
+import summary from './commands/summary';
+import { environmentVariables } from './util/environmentVariables';
 
-type ChannelMessage = {
+export type ChannelMessage = {
 	user: string;
 	message: string;
 	createdAt: number;
@@ -29,17 +27,17 @@ async function init() {
 	console.log(`Establishing connection to Discord....`);
 
 	// Log in to Discord with your client's token
-	await client.login(process.env.DISCORD_APP_TOKEN);
+	await client.login(environmentVariables.discordAppToken);
 
 	console.log(`Connection to Discord is established!`);
 
 	// Get channel
 	const channel = (await client.channels.fetch(
-		process.env.CHANNEL_ID as string
+		environmentVariables.channelID
 	)) as TextChannel;
 
 	//  Get messages for channel
-	const messages = await channel?.messages.fetch({ limit: 5 });
+	const messages = await channel?.messages.fetch({ limit: 100 });
 
 	console.log(`We received a total of ${messages.size} messages`);
 
@@ -55,12 +53,12 @@ async function init() {
 	//  Listen for new messages in the channel
 	client.on('messageCreate', async (newMessage) => {
 		// Only want to check on messages coming from channel we are monitoring
-		if (newMessage.guildId !== process.env.CHANNEL_ID) {
+		if (newMessage.guildId !== environmentVariables.channelID) {
 			return;
 		}
 
 		// If above max number of messages, remove the last item (oldest message)
-		if (channelMessages.length > MAX_MESSAGES) {
+		if (channelMessages.length > environmentVariables.maxMessage) {
 			channelMessages.pop();
 		}
 

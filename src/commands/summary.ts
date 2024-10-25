@@ -1,4 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import { channelMessages } from '..';
+import { callAI } from '../api/openapi';
+
 
 export default {
 	data: new SlashCommandBuilder()
@@ -17,10 +20,11 @@ export default {
 				.setDescription('How many messages do you want to summarize');
 		}),
 	execute: async (interaction: ChatInputCommandInteraction) => {
-		const count = interaction.options.data.find((f) => f.name === 'count');
-
-		await interaction.reply(
-			`Hey, here is a summary for the last ${count?.value} messages`
+		await interaction.deferReply();
+		const response = await callAI(channelMessages)
+				
+		await interaction.editReply(
+				response.choices[0].message?.content?.slice(0, 1500) || 'We did not get an actually message back, sorry', 
 		);
 
 		return true;

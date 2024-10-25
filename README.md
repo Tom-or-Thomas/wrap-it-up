@@ -12,12 +12,14 @@ High Level roadmap for building this bot.
 
 - [x] ~Connect to Discord server~
 - [x] ~Collect message for specific channel.~
-- [x] Add listener for new messages in channel.
-- [x] Updated Discord prompt to allow users to specify number of messages to summarize (current max is 100)
-- [ ] Get connected to OpenAPI api.
-- [ ] Work on formatting messages we will send to OpenAPI
-- [ ] Format OpenAPI response and send back to Discord.
+- [x] ~Add listener for new messages in channel.~
+- [x] ~Updated Discord prompt to allow users to specify number of messages to summarize (current max is 100)~
+- [x] Get connected to OpenAP api.
+- [x] Work on formatting messages we will send to OpenAI
+- [ ] Format OpenAI response and send back to Discord.
 - [ ] Identify method for hosting application.
+- [ ] Add tests
+- [ ] Add pre-commit hook to check linting
 
 ## Stretch Goals
 
@@ -32,3 +34,5 @@ While I have a general idea of what I want this app to do, I know there are thin
 - [ ] Add method for receiving feedback on response.
 - [ ] Add logging.
 - [ ] Add onboarding instructions so that folks can add this to their channels.
+- [ ] Add GitHub Actions
+- [ ] Disable pushing to main and setup workflow for pushing updates
