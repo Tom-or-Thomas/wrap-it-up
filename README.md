@@ -17,13 +17,11 @@ High Level roadmap for building this bot.
 - [x] Get connected to OpenAP api.
 - [x] Work on formatting messages we will send to OpenAI
 - [x] Format OpenAI response and send back to Discord.
-- [ ] Have application dynamically pull messages from a channel
-  - Should this be something users configure (i.e. have the bot only work for these channels)
-- [ ] Identify method for hosting application.
-- [ ] Add tests
+- [x] Have application dynamically pull messages from a channel
 - [ ] Add pre-commit hook to check linting
+- [ ] Add tests
 - [ ] Update API to work for any channel that is compatible.
-- [ ] Update API to fetch the number of messages specified
+- [x] Update API to fetch the number of messages specified
 
 ## Stretch Goals
 
@@ -31,6 +29,7 @@ While I have a general idea of what I want this app to do, I know there are thin
 
 - [ ] Update app to work for Text and threads.
 - [ ] Send summary to users directly via a DM.
+
   - Not sure if this is the best approach. Maybe others would find it helpful with it posted in the channel
 
 - [ ] Adding cool-down on a per channel or user basis.
@@ -40,7 +39,5 @@ While I have a general idea of what I want this app to do, I know there are thin
 - [ ] Add GitHub Actions
 - [ ] Disable pushing to main and setup workflow for pushing updates
 - [ ] Exclude bot messages.
-- [ ] Update OpenAPI query so that it's more consistent. Some things I've seen are....
-      - Messages are structures differently and group differently with each request.
-      - ChatGPT is not respecting character limit.
-      - Some times includes participates, but sometimes doesn't.
+- [ ] Update OpenAPI query so that it's more consistent. Some things I've seen are.... - Messages are structures differently and group differently with each request. - ChatGPT is not respecting character limit. - Some times includes participates, but sometimes doesn't.
+- [ ] Identify method for hosting application.

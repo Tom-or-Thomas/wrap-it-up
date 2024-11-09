@@ -16,7 +16,6 @@ export type ChannelMessage = {
 export const channelMessages: ChannelMessage[] = [];
 
 async function init() {
-
 	console.log(`Establishing connection to Discord....`);
 
 	// Log in to Discord with your client's token

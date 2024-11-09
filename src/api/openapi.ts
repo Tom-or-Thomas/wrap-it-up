@@ -3,20 +3,20 @@ import { ChatCompletion } from 'openai/resources';
 import { ChannelMessage } from '..';
 import { environmentVariables } from '../util/environmentVariables';
 
-
 const openai = new OpenAI({
-    apiKey: environmentVariables.openAiApiKey,
-    project: environmentVariables.openAiProjectID,
+	apiKey: environmentVariables.openAiApiKey,
+	project: environmentVariables.openAiProjectID
 });
 
-export const callAI = async (prompt: ChannelMessage[]): Promise<ChatCompletion> => {
-    
-    return openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [{
-            role: 'system',
-            content: 
-            `
+export const callAI = async (
+	prompt: ChannelMessage[]
+): Promise<ChatCompletion> => {
+	return openai.chat.completions.create({
+		model: 'gpt-4o-mini',
+		messages: [
+			{
+				role: 'system',
+				content: `
                 You are going to be provided an stringified array that contains objects. Each object represents a unique messages from a Discord channel. Each object includes the following keys:
                     - createdAt: Time the message was posted.
                     - user: The user that posted the message.
@@ -32,12 +32,11 @@ export const callAI = async (prompt: ChannelMessage[]): Promise<ChatCompletion> 
 
                 Keep the response for each topic to less than 1800 characters.
             `
-        },
-        {
-            role: 'user',
-            content: JSON.stringify(prompt)
-        }
-    ]
-    })
-}
-
+			},
+			{
+				role: 'user',
+				content: JSON.stringify(prompt)
+			}
+		]
+	});
+};
