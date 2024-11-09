@@ -1,9 +1,12 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, TextChannel } from 'discord.js';
-import { channelMessages } from '..';
 import { callAI } from '../api/openapi';
 import { discordClient } from '../disocrd';
-import { environmentVariables } from '../util/environmentVariables';
 
+type ChannelMessage = {
+	user: string;
+	message: string;
+	createdAt: number;
+};
 
 export default {
 	data: new SlashCommandBuilder()
@@ -13,37 +16,63 @@ export default {
 			return options
 				.setName('count')
 				.setRequired(true)
-				.addChoices(
-					{ name: '50', value: 50 },
-					{ name: '100', value: 100 },
-					{ name: '150', value: 150 },
-					{ name: '200', value: 200 }
-				)
+				.setMaxValue(100)
+				.setMinValue(1)
 				.setDescription('How many messages do you want to summarize');
 		}),
 	execute: async (interaction: ChatInputCommandInteraction) => {
+		const channelMessages: ChannelMessage[] = [];
 
 		await interaction.deferReply();
 
-		const response = await callAI(channelMessages)
-				
-		const messages = response.choices[0].message.content?.split('**Summary Bot Summary').filter(m => m !== '');
+		// Get channel
+		// const channel = (await discordClient.channels.fetch(interaction.channelId)) as TextChannel;
+		const channel = await discordClient.channels.fetch(interaction.channelId) as TextChannel;
 
-		const startMessage = await interaction.editReply(
-			!messages ? 
-			'We did not get an actually message back, sorry':
-			"Starting thread for summary report",
-		);
-		if (!messages) {
+		// Get count option passed to command
+		const count = interaction.options.data.find(d => d.name === 'count');
+
+		if (!count?.value) {
+			// Should never be reached, but adding just in case
+			await interaction.editReply('Please specify a number of messages to summarize');
 			return;
 		}
 
-		const channel = await discordClient.channels.fetch(interaction.channelId) as TextChannel;
+		//  Get messages from channel
+		const messages = await channel?.messages.fetch({ limit: count.value as number});
 
+		
+		console.log(`We received a total of ${messages.size} messages`);
+
+
+		// Push user messages to array
+		for (const message of messages.values()) {
+			channelMessages.push({
+				user: message.author.globalName || message.author.username,
+				message: message.content,
+				createdAt: message.createdTimestamp
+			});
+		}
+
+		const openAIResponse = await callAI(channelMessages)
+				
+		const messageSummaries = openAIResponse.choices[0].message.content?.split('### Summary Bot Summary').filter(m => m !== '');
+
+		const startMessage = await interaction.editReply(
+			!messageSummaries ? 
+			'We did not get an actually message back, sorry':
+			"Starting thread for summary report",
+		);
+		if (!messageSummaries) {
+			return;
+		}
+
+		console.log('trying to create a thread at this moment', startMessage);
 		const thread = await channel.threads.create({startMessage, name: 'Summary Response'});
 
-		for (let i = 0; i < messages.length; i++)  {
-			thread.send(`**Topic ${i + 1}${messages[i]}`);
+		for (let i = 0; i < messageSummaries.length; i++)  {
+			console.log('Attempting to push a new thread message, ', messageSummaries[i])
+			thread.send(`**Topic ${i + 1}${messageSummaries[i]}`);
 		}
 
 		return true;

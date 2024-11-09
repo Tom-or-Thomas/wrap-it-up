@@ -1,7 +1,7 @@
 // Setup env variables
 // import 'dotenv/config';
 
-import { Events, TextChannel } from 'discord.js';
+import { Events } from 'discord.js';
 import summary from './commands/summary';
 import { environmentVariables } from './util/environmentVariables';
 import { discordClient } from './disocrd';
@@ -23,45 +23,6 @@ async function init() {
 	await discordClient.login(environmentVariables.discordAppToken);
 
 	console.log(`Connection to Discord is established!`);
-
-	// Get channel
-	const channel = (await discordClient.channels.fetch(
-		environmentVariables.channelID
-	)) as TextChannel;
-
-	//  Get messages for channel
-	const messages = await channel?.messages.fetch({ limit: 100 });
-
-	console.log(`We received a total of ${messages.size} messages`);
-
-	// Push user messages to array
-	for (const message of messages.values()) {
-		channelMessages.push({
-			user: message.author.globalName || message.author.username,
-			message: message.content,
-			createdAt: message.createdTimestamp
-		});
-	}
-
-	//  Listen for new messages in the channel
-	discordClient.on('messageCreate', async (newMessage) => {
-		// Only want to check on messages coming from channel we are monitoring
-		if (newMessage.guildId !== environmentVariables.channelID) {
-			return;
-		}
-
-		// If above max number of messages, remove the last item (oldest message)
-		if (channelMessages.length > environmentVariables.maxMessage) {
-			channelMessages.pop();
-		}
-
-		// Add new item to begging of an array
-		channelMessages.unshift({
-			user: newMessage.author.globalName || newMessage.author.username,
-			message: newMessage.content,
-			createdAt: newMessage.createdTimestamp
-		});
-	});
 
 	// Setup listener to listen for when command is called
 	discordClient.on(Events.InteractionCreate, async (interaction) => {

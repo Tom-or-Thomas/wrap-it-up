@@ -39,6 +39,7 @@ While I have a general idea of what I want this app to do, I know there are thin
 - [ ] Add onboarding instructions so that folks can add this to their channels.
 - [ ] Add GitHub Actions
 - [ ] Disable pushing to main and setup workflow for pushing updates
+- [ ] Exclude bot messages.
 - [ ] Update OpenAPI query so that it's more consistent. Some things I've seen are....
       - Messages are structures differently and group differently with each request.
       - ChatGPT is not respecting character limit.
