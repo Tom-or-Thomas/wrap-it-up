@@ -16,21 +16,22 @@ export const callAI = async (prompt: ChannelMessage[]): Promise<ChatCompletion> 
         messages: [{
             role: 'system',
             content: 
-            `You are going to be provided an stringified array that contains objects. The objects represent unique messages 
-            for a Discord channel. Each object includes a key called "createdAt" (that is the time the message 
-            was posted), a key called user (which is the the user that posted the message), and the a field
-            called message (which is the message the user posted). The array will start with the newest message 
-            and end with the oldest message. 
+            `You are going to be provided an stringified array that contains objects. Each object represents a unique messages 
+            from a Discord channel. Each object includes the following keys 
+                - createdAt: Time the message was posted.
+                - user: The user that posted the message.
+                - message: The message the user posted. 
+            The array will start with the newest message and end with the oldest message. 
             I want you to read through each message and summarize the conversation. Keep in mind 
-            that you may not have the full context for the conversation and that there may be several
-            concurrent conversation happening at the same time. Try your best to figure out what the topic(s) are 
-            and what the main arguments are. 
+            that the full context for the conversation may not be encompassed in the messages provided.
+            and that there may be several concurrent conversation happening at the same time.
+            Try your best to figure out what the topic(s) are and what the main arguments were. 
 
-            For each unique topic being discuss, I want the response to include the 1-2 sentence summary of the topic that is 
-            titled Summary Bot Summary: Insert description here, 4-12 sentences for the arguments being discussed and points 
-            specific users brought up, and the end should list each user that participated in the discussion.
+            For each unique topic, I want the response to to follow the following structure. Starts with a 1-2 sentence summary of the topic that is 
+            titled "Summary Bot Summary: Insert description here". Next, I want 4-12 sentences for the arguments and points 
+            specific users brought up.
 
-            Keep all the response to less than 1800 characters
+            Keep all the response for each topic to less than 1800 characters
             `
         },
         {

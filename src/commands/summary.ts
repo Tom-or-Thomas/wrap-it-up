@@ -41,6 +41,7 @@ export default {
 		const channel = await discordClient.channels.fetch(interaction.channelId) as TextChannel;
 
 		const thread = await channel.threads.create({startMessage, name: 'Summary Response'});
+
 		for (let i = 0; i < messages.length; i++)  {
 			thread.send(`**Topic ${i + 1}${messages[i]}`);
 		}
