@@ -1,14 +1,14 @@
 import OpenAI from 'openai';
 import { ChatCompletion } from 'openai/resources';
-import { ChannelMessage } from '..';
 import { environmentVariables } from '../util/environmentVariables';
+import { ChannelMessage } from '../commands/summary/utils';
 
 const openai = new OpenAI({
 	apiKey: environmentVariables.openAiApiKey,
 	project: environmentVariables.openAiProjectID
 });
 
-export const callAI = async (
+export const fetchOpenAISummary = async (
 	prompt: ChannelMessage[]
 ): Promise<ChatCompletion> => {
 	return openai.chat.completions.create({

@@ -3,10 +3,11 @@ import {
 	RESTPostAPIApplicationCommandsJSONBody,
 	Routes
 } from 'discord.js';
-import summary from './commands/summary';
-import { environmentVariables } from './util/environmentVariables';
+import summary from '../commands/summary/summary';
+import { environmentVariables } from '../util/environmentVariables';
 
 const commands: RESTPostAPIApplicationCommandsJSONBody[] = [];
+
 // Grab all the command folders from the commands directory you created earlier
 commands.push(summary.data.toJSON());
 

@@ -1,19 +1,7 @@
-// Setup env variables
-// import 'dotenv/config';
-
 import { Events } from 'discord.js';
-import summary from './commands/summary';
+import summary from './commands/summary/summary';
 import { environmentVariables } from './util/environmentVariables';
-import { discordClient } from './disocrd';
-
-export type ChannelMessage = {
-	user: string;
-	message: string;
-	createdAt: number;
-};
-
-// [0] is newest message
-export const channelMessages: ChannelMessage[] = [];
+import { discordClient } from './clients/disocrd';
 
 async function init() {
 	console.log(`Establishing connection to Discord....`);
@@ -25,7 +13,7 @@ async function init() {
 
 	// Setup listener to listen for when command is called
 	discordClient.on(Events.InteractionCreate, async (interaction) => {
-		console.log('Interactive Create event received');
+		console.log('Interactive "Create" event received');
 
 		// TODO: Figure out if this will ever be called from other commands
 		if (!interaction.isChatInputCommand()) {
