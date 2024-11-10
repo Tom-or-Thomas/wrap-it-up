@@ -3,12 +3,12 @@ import {
 	ChatInputCommandInteraction,
 	TextChannel
 } from 'discord.js';
-import { fetchOpenAISummary } from '../../api/openapi';
+import { fetchOpenAISummary } from '../../clients/openapi';
 import { getChannelMessages, postSummary } from './utils';
 import { discordClient } from '../../clients/disocrd';
 
 // Defines what the discord user sees when interacting with command
-const commandDescription = new SlashCommandBuilder()
+const description = new SlashCommandBuilder()
 	.setName('summary')
 	.setDescription('Get a summary of recent messages, and hopefully it works')
 	.addNumberOption((options) => {
@@ -28,6 +28,8 @@ const command = async (
 
 	// Get channel
 	// const channel = (await discordClient.channels.fetch(interaction.channelId)) as TextChannel;
+	// TODO: Support these channels  PublicThreadChannel, TextChannel
+
 	const channel = (await discordClient.channels.fetch(
 		interaction.channelId
 	)) as TextChannel;
@@ -56,6 +58,6 @@ const command = async (
 };
 
 export default {
-	data: commandDescription,
+	data: description,
 	execute: command
 };
