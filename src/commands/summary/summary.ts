@@ -1,11 +1,7 @@
-import {
-	SlashCommandBuilder,
-	ChatInputCommandInteraction,
-	TextChannel
-} from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { fetchOpenAISummary } from '../../clients/openapi';
 import { getChannelMessages, postSummary } from './utils';
-import { discordClient } from '../../clients/disocrd';
+import { fetchDiscordChannel } from '../../clients/disocrd';
 
 // Defines what the discord user sees when interacting with command
 const description = new SlashCommandBuilder()
@@ -27,12 +23,7 @@ const command = async (
 	await interaction.deferReply();
 
 	// Get channel
-	// const channel = (await discordClient.channels.fetch(interaction.channelId)) as TextChannel;
-	// TODO: Support these channels  PublicThreadChannel, TextChannel
-
-	const channel = (await discordClient.channels.fetch(
-		interaction.channelId
-	)) as TextChannel;
+	const channel = await fetchDiscordChannel(interaction.channelId);
 
 	const channelMessages = await getChannelMessages(channel, interaction);
 
